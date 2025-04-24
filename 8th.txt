@@ -1,0 +1,245 @@
+**1. Generate the shift matrix P7**
+```matlab
+A = eye(7);
+P7 = circshift(A, -1)
+```
+**Output:**
+```
+     0     1     0     0     0     0     0
+     0     0     1     0     0     0     0
+     0     0     0     1     0     0     0
+     0     0     0     0     1     0     0
+     0     0     0     0     0     1     0
+     0     0     0     0     0     0     1
+     1     0     0     0     0     0     0
+```
+
+**2. Generate the shift matrix P15**
+(a) Verify that \( P_{15}^{15} = I_{15} \)
+(b) Find the eigenvalues and eigenvectors of P15.
+(c) Verify that the eigenvalues are the roots of \( z^{15} = 1 \)
+
+**3. Shift a 25-dimensional vector by 5 units using a shift matrix**
+```matlab
+P25 = circshift(eye(25), -5);
+```
+
+**4. Shift vector [1,2,3,4,5,6,7,8,9] by three units**
+```matlab
+x = [1,2,3,4,5,6,7,8,9];
+y = circshift(x,3)
+```
+
+**5. Character array shift**
+```matlab
+A = 'racecar';
+Y = circshift(A,3)
+% Output: 'carrace'
+```
+
+**6. Toeplitz matrix from column [1,2,3,4] and row [1,5,6,7]**
+```matlab
+c = [1,2,3,4];
+r = [1,5,6,7];
+toeplitz(c, r)
+```
+
+**7. Toeplitz matrix from column [9,1,9,...] and row [9,8,7,...]**
+```matlab
+c = [9,1,9,1,9,1,9,1,9];
+r = [9,8,7,6,5,4,3,2,1];
+toeplitz(c, r)
+```
+
+**8. Circulant matrix with first row [9,1,3,2]**
+```matlab
+r = [9,1,3,2];
+c = [r(1), fliplr(r(2:end))];
+M = toeplitz(c, r)
+```
+
+**9. Circulant matrix with first row [3,0,0,...]**
+```matlab
+r = [3,0,0,3,0,0,3,0,0,3,0,0];
+c = [r(1), fliplr(r(2:end))];
+C = toeplitz(c, r)
+```
+
+**10. Circulant matrix [9,...,1] - Eigenvalues & eigenvectors**
+(a) Using `eig` command
+(b) Using Fourier matrix
+
+**11. Eigenvalues and eigenvectors of circulant matrix [12,...,89]**
+```matlab
+r = [12, 23, 34, 45, 56, 67, 78, 89];
+```
+
+**12. Kronecker product for block diagonal matrix**
+```matlab
+A = eye(4);
+B = [1,2;3,4];
+kron(A,B)
+```
+
+**13. Kronecker product with cluster of four ones in top left**
+```matlab
+A = [1,0;0,0];
+B = ones(2);
+kron(A,B)
+```
+
+**14. Kronecker product of 3x4 and 5x2 matrices**
+```matlab
+A = randi(10,3,4);
+B = randi(10,5,2);
+kron(A,B)
+```
+
+**15. Kronecker products and eigenvalues comparison**
+(a) `M = kron(A, B)`
+(b) `N = kron(B, A)`
+(c) Compare eigenvalues of M and N
+
+**16. Verify Kronecker product properties**
+(a) \( K^{-1} = \text{kron}(A^{-1}, B^{-1}) \)
+(b) \( K^T = \text{kron}(A^T, B^T) \)
+
+**17. 6x6 matrices: A, B, C, D and their Kronecker products**
+(a) `M = kron(A, B)`
+(b) `N = kron(C, D)`
+(c) `kron(AC, BD) == M * N`
+
+**18. Eigenvalues and eigenvectors of Kronecker product**
+Given A and B with respective eigenvalues and vectors:
+Compute eigenvalues: \( \lambda_A \cdot \lambda_B \)
+Compute eigenvectors: \( v_A \otimes v_B \)
+
+
+Question 01
+A = eye(7)
+P7 = circshift(A,-1)
+
+Question 02
+A = eye(15)
+P15 = circshift(A,-1)
+B = eye(15)
+P15^15
+[V, D] = eig(P15);
+eig_vals = diag(D);
+eig_vals.^15
+
+Question 03
+A = eye(25)
+P25 = circshift(A,-5)
+
+Question 04
+v = [1;2;3;4;5;6;7;8;9];
+p9 = circshift(v,3)
+
+Question 05
+A = 'racecar';
+Y = circshift(A, 3);
+Y
+
+Question 06
+c = [1,2,3,4];
+r = [1,5,6,7];
+T = toeplitz(c, r)
+
+Question 07
+c = [9,1,9,1,9,1,9,1,9];
+r = [9,8,7,6,5,4,3,2,1];
+S = toeplitz(c, r)
+
+Question 08
+r = [9 1 3 2];
+c = [r(1) fliplr(r(2:end))];
+C = toeplitz(c, r)
+
+Question 09
+r = [3 0 0 3 0 0 3 0 0 3 0 0];
+c = [r(1) fliplr(r(2:end))];
+M = toeplitz(c, r)
+
+Question 10
+r = [9,8,7,6,5,4,3,2,1];
+c = [r(1) fliplr(r(2:end))];
+C = toeplitz(c, r)  
+
+% a
+eig(C)
+% b
+n = length(r);
+omega = exp(-2*pi*i/n);
+F = fft(eye(n));  
+F'*C'
+
+Question 11
+r = [12, 23, 34, 45, 56, 67, 78, 89];
+c = [r(1) fliplr(r(2:end))];
+C = toeplitz(c, r) 
+[V, D] = eig(C)
+
+Question 12
+A = eye(4);
+B = [1,2;3,4];
+D = kron(A, B)
+
+Question 13
+A = [1,0;0,0];
+B = ones(2);
+C = kron(A, B)
+
+Question 14
+A = randi(3, 4);
+B = randi(5, 2);
+K = kron(A, B)
+
+Question 15
+A = randi(3, 3);
+B = randi(2, 2);
+% a
+M = kron(A, B)
+% b
+N = kron(B, A)
+% c
+eigM = eig(M)
+eigN = eig(N)
+
+
+Question 16
+A = randi(5, 5);
+B = randi(3, 3);
+a_1 = inv(A);
+b_1 = inv(B);
+% a
+k_1 = kron(a_1, b_1)
+% b
+k_transpose = kron(A', B')
+
+Question 17
+A = randi(6, 6);
+B = randi(6, 6);
+C = randi(6, 6);
+D = randi(6, 6);
+% a
+M = kron(A, B)
+% b
+N = kron(C, D)
+% c 
+productMN = M*N
+kp = kron(A*C,B*D)
+
+
+Question 18
+eigA = [2;6;3];
+eigB = [1;8;4;-2];
+eigenvectorA = [1 3 8;2 0 2;0 0 1];
+eigenvectorB = [3 2 0 0;2 -3 0 -1 ;0 0 4 1;0 0 1 4];
+A = eigenvectorA*diag(eigA)*inv(eigenvectorA)
+B = eigenvectorB*diag(eigB)*inv(eigenvectorB)
+
+kronAB = kron(A,B)
+[V D]= eig(kronAB);
+V
+D
